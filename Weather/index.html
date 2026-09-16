@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Cloudiq — Weather Dashboard</title>
+
+    <meta
+        name="description"
+        content="A clean, modern and responsive weather dashboard."
+    >
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="app">
+
+        <!-- HEADER -->
+        <header class="header">
+
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-cloud-sun"></i>
+                </div>
+
+                <div>
+                    <h1>Cloudiq</h1>
+                    <span>Weather, simplified.</span>
+                </div>
+            </div>
+
+            <div class="header-actions">
+
+                <button class="unit-toggle" id="unitToggle">
+                    <span class="active">°C</span>
+                    <span>°F</span>
+                </button>
+
+                <button
+                    class="icon-button"
+                    id="themeToggle"
+                    aria-label="Toggle theme"
+                >
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+
+            </div>
+
+        </header>
+
+
+        <!-- SEARCH -->
+        <section class="search-section">
+
+            <div class="search-box">
+
+                <i class="fa-solid fa-magnifying-glass"></i>
+
+                <input
+                    type="text"
+                    id="cityInput"
+                    placeholder="Search for a city..."
+                    autocomplete="off"
+                >
+
+                <button id="searchButton">
+                    Search
+                </button>
+
+            </div>
+
+            <button class="location-button" id="locationButton">
+                <i class="fa-solid fa-location-crosshairs"></i>
+                Use my location
+            </button>
+
+            <div class="search-results" id="searchResults"></div>
+
+        </section>
+
+
+        <!-- LOADING -->
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>Getting weather data...</p>
+        </div>
+
+
+        <!-- ERROR -->
+        <div class="error-message" id="errorMessage">
+            <i class="fa-solid fa-circle-exclamation"></i>
+            <span id="errorText"></span>
+        </div>
+
+
+        <!-- MAIN WEATHER -->
+        <main id="weatherContent" class="weather-content">
+
+            <!-- CURRENT WEATHER -->
+            <section class="current-weather">
+
+                <div class="current-location">
+
+                    <div class="location-name">
+
+                        <div class="location-pin">
+                            <i class="fa-solid fa-location-dot"></i>
+                        </div>
+
+                        <div>
+                            <h2 id="cityName">Lagos</h2>
+                            <p id="countryName">Nigeria</p>
+                        </div>
+
+                    </div>
+
+                    <div class="date-info">
+                        <p id="currentDate">Wednesday, September 16</p>
+                        <span id="currentTime">4:12 PM</span>
+                    </div>
+
+                </div>
+
+
+                <div class="hero-weather">
+
+                    <div class="weather-icon" id="currentIcon">
+                        ☁️
+                    </div>
+
+                    <div class="temperature">
+                        <span id="currentTemp">29</span>
+                        <sup>°</sup>
+                    </div>
+
+                    <div class="weather-description">
+                        <h3 id="weatherDescription">
+                            Mostly Cloudy
+                        </h3>
+
+                        <p>
+                            Feels like
+                            <strong id="feelsLike">32°</strong>
+                        </p>
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- WEATHER STATS -->
+            <section class="stats-grid">
+
+                <article class="stat-card">
+
+                    <div class="stat-icon humidity">
+                        <i class="fa-solid fa-droplet"></i>
+                    </div>
+
+                    <div>
+                        <span>Humidity</span>
+                        <strong id="humidity">78%</strong>
+                    </div>
+
+                </article>
+
+
+                <article class="stat-card">
+
+                    <div class="stat-icon wind">
+                        <i class="fa-solid fa-wind"></i>
+                    </div>
+
+                    <div>
+                        <span>Wind</span>
+                        <strong id="wind">14 km/h</strong>
+                    </div>
+
+                </article>
+
+
+                <article class="stat-card">
+
+                    <div class="stat-icon visibility">
+                        <i class="fa-solid fa-eye"></i>
+                    </div>
+
+                    <div>
+                        <span>Visibility</span>
+                        <strong id="visibility">10 km</strong>
+                    </div>
+
+                </article>
+
+
+                <article class="stat-card">
+
+                    <div class="stat-icon uv">
+                        <i class="fa-solid fa-sun"></i>
+                    </div>
+
+                    <div>
+                        <span>UV Index</span>
+                        <strong id="uvIndex">6</strong>
+                    </div>
+
+                </article>
+
+            </section>
+
+
+            <!-- HOURLY FORECAST -->
+            <section class="weather-section">
+
+                <div class="section-heading">
+
+                    <div>
+                        <span class="section-label">FORECAST</span>
+                        <h2>Hourly Forecast</h2>
+                    </div>
+
+                    <button class="today-button">
+                        Today
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </button>
+
+                </div>
+
+                <div class="hourly-container" id="hourlyForecast"></div>
+
+            </section>
+
+
+            <!-- DAILY FORECAST -->
+            <section class="weather-section">
+
+                <div class="section-heading">
+
+                    <div>
+                        <span class="section-label">NEXT 7 DAYS</span>
+                        <h2>Daily Forecast</h2>
+                    </div>
+
+                </div>
+
+                <div
+                    class="daily-forecast"
+                    id="dailyForecast"
+                ></div>
+
+            </section>
+
+
+            <!-- SUN -->
+            <section class="sun-card">
+
+                <div class="sun-item">
+
+                    <div class="sun-icon">
+                        <i class="fa-solid fa-sun"></i>
+                    </div>
+
+                    <div>
+                        <span>Sunrise</span>
+                        <strong id="sunrise">6:30 AM</strong>
+                    </div>
+
+                </div>
+
+
+                <div class="sun-progress">
+
+                    <div class="sun-line">
+                        <div class="sun-position"></div>
+                    </div>
+
+                    <div class="sun-labels">
+                        <span>Sunrise</span>
+                        <span>Sunset</span>
+                    </div>
+
+                </div>
+
+
+                <div class="sun-item">
+
+                    <div class="sun-icon sunset">
+                        <i class="fa-solid fa-moon"></i>
+                    </div>
+
+                    <div>
+                        <span>Sunset</span>
+                        <strong id="sunset">6:45 PM</strong>
+                    </div>
+
+                </div>
+
+            </section>
+
+        </main>
+
+
+        <!-- FOOTER -->
+        <footer>
+
+            
+
+            <span>Weather data powered by Open-Meteo</span>
+
+        </footer>
+
+    </div>
+
+
+    <script src="script.js"></script>
+
+</body>
+</html>
